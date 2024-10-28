@@ -1,0 +1,46 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "!slides/[0-9]*.qmd"
+
+website:
+  page-navigation: true
+  title: "Harnessing CDISC’s Emerging Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages"
+  description: "R in Pharma Talk 2024"
+  favicon: "images/cards-cardx-gtsummary-hex.png"
+
+  repo-url: https://github.com/ddsjoberg/ARD-RinPharma-talk-2024
+  repo-actions: [edit, issue]
+
+  page-footer:
+    left: "This page is built with ❤️ and [Quarto](https://quarto.org/). Inspired by [@minecr.bsky.social](https://bsky.app/profile/minecr.bsky.social)."
+    background: "#708090"
+
+  sidebar:
+    background: "#708090"
+    logo: "images/cards-cardx-gtsummary-hex.png"
+    pinned: true
+    align: center
+    tools:
+      - icon: github
+        href: https://github.com/ddsjoberg/ARD-RinPharma-workshop-2024
+        text: GitHub
+    style: docked
+    contents:
+     - href: index.qmd
+       text: Home
+     - href: license.qmd
+
+format:
+  html:
+    theme: [cosmo, theme.scss]
+    toc: true
+    code-copy: true
+    code-overflow: scroll
+    mainfont: "Atkinson Hyperlegible"
+    highlight-style: a11y
+
+editor: source
+

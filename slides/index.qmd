@@ -1,0 +1,46 @@
+---
+title: "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages"
+author: "Daniel D. Sjoberg, Genentech"
+logo: "images/cards-cardx-gtsummary-hex.png"
+editor: source
+format: 
+  revealjs: 
+    theme: slides.scss
+    transition: fade
+    slide-number: true
+    chalkboard: true
+execute:
+  echo: true
+title-slide-attributes:
+  data-background-image: images/cards-cardx-gtsummary-hex.png
+  data-background-size: contain
+  data-background-opacity: "0.15"
+---
+
+## What are we doing here today?
+
+-   Briefest introduction into CDISC's Analysis Results Standard (ARS)
+
+-   Where Analysis Results Datasets (ARDs) fits under the umbrella of ARS
+
+-   How to utilize ARDs to facilitate reporting with and without the ARS
+
+    -   Using {cards} to build ARDs and {gtsummary} for reporting
+
+![](images/cards-cardx-gtsummary-hex){width="33%" fig-align="center"}
+
+## CDISC's Analysis Results Standard (ARS)
+
+![](images/ars-flow.png){fig-align="center"}
+
+![](images/ars-objectives.png){.fragment fig-align="center"}
+
+## CDISC's Analysis Results Standard (ARS)
+
+![](images/ars-example-flow2.png){fig-align="center"}
+
+## CDISC's Analysis Results Standard (ARS)
+
+![](images/ars-example-flow2-hex.png){fig-align="center" }
+
+
