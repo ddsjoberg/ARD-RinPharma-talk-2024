@@ -1,0 +1,70 @@
+[
+  {
+    "objectID": "slides/index.html#what-are-we-doing-here-today",
+    "href": "slides/index.html#what-are-we-doing-here-today",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "What are we doing here today?",
+    "text": "What are we doing here today?\n\nBriefest introduction into CDISC’s Analysis Results Standard (ARS)\nWhere Analysis Results Datasets (ARDs) fits under the umbrella of ARS\nHow to utilize ARDs to facilitate reporting with and without the ARS\n\nUsing {cards} to build ARDs and {gtsummary} for reporting"
+  },
+  {
+    "objectID": "slides/index.html#cdiscs-analysis-results-standard-ars",
+    "href": "slides/index.html#cdiscs-analysis-results-standard-ars",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "CDISC’s Analysis Results Standard (ARS)",
+    "text": "CDISC’s Analysis Results Standard (ARS)"
+  },
+  {
+    "objectID": "slides/index.html#cdiscs-analysis-results-standard-ars-1",
+    "href": "slides/index.html#cdiscs-analysis-results-standard-ars-1",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "CDISC’s Analysis Results Standard (ARS)",
+    "text": "CDISC’s Analysis Results Standard (ARS)"
+  },
+  {
+    "objectID": "slides/index.html#cdiscs-analysis-results-standard-ars-2",
+    "href": "slides/index.html#cdiscs-analysis-results-standard-ars-2",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "CDISC’s Analysis Results Standard (ARS)",
+    "text": "CDISC’s Analysis Results Standard (ARS)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Harnessing CDISC’s Emerging Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "",
+    "text": "🗓️ October 30, 2024 | 11:00 EDT\n📝 R in Pharma Registration\n🌐 Virtual and FREE!",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#description",
+    "href": "index.html#description",
+    "title": "Harnessing CDISC’s Emerging Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "Description",
+    "text": "Description\nThe CDISC Analysis Results Data (ARD) Model is an emerging standard for encoding statistical analysis summaries in a machine-readable format. Its primary objective is to streamline the processes of automation, ensuring reproducibility, promoting reusability, and enhancing traceability.\nThe newly released {cards} R package, a collaborative effort in the Pharmaverse including Roche, GSK, and Novartis, offers a variety of functions for ARD generation. These range from basic univariate summaries like means and tabulations to complex multivariable summaries encompassing regression models and statistical tests.\nWhile {cards} calculates statistics and stores them in a structured object, it cannot present those results; this, however, is where the {gtsummary} R package shines. The {gtsummary} package offers a modular framework to construct summary tables. It won the American Statistical Association’s 2021 award for Innovation in Statistical Programming and Analytics, and also won first place in Posit BPC’s Table Contest’s pharmaceutical track. The {gtsummary} package was recently refactored to utilize {cards} as its backend, which will allow users to both extract an ARD object from a {gtsummary} table and use an ARD object to construct a {gtsummary} table.\nOur recent experience utilizing the {cards} and {gtsummary} R packages to prepare a health authority filing highlighted the benefits of using ARDs, including improved automation, reproducibility, reusability, and traceability. We believe that this approach will become increasingly essential for ensuring the quality and efficiency of clinical trial reporting.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#speaker",
+    "href": "index.html#speaker",
+    "title": "Harnessing CDISC’s Emerging Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "Speaker",
+    "text": "Speaker\n\nDaniel D. Sjoberg (he/him) is a Senior Principal Data Scientist at Genentech. Previously, he was a Lead Data Science Manager at the Prostate Cancer Clinical Trials Consortium, and a Senior Biostatistician at Memorial Sloan Kettering Cancer Center in New York City. He enjoys R package development, creating many packages available on CRAN, R-Universe, and GitHub. He’s a co-organizer of rainbowR (a community that supports, promotes and connects LGBTQ+ people who code in the R language) and of the R Medicine Conference. His research interests include adaptive methods in clinical trials, precision medicine, and predictive modeling. Daniel is the winner of the 2021 American Statistical Association (ASA) Innovation in Statistical Programming and Analytics award.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "license.html",
+    "href": "license.html",
+    "title": "License",
+    "section": "",
+    "text": "This work is licensed under a Creative Commons Attribution 4.0 International License.",
+    "crumbs": [
+      "License"
+    ]
+  }
+]
