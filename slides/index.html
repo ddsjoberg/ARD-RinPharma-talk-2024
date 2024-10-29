@@ -30,6 +30,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -371,19 +436,340 @@ Daniel D. Sjoberg, Genentech
 <img data-src="images/ars-example-flow2.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="cdiscs-analysis-results-standard-ars-2" class="slide level2">
 <h2>CDISC’s Analysis Results Standard (ARS)</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/ars-example-flow2-hex.png" class="quarto-figure quarto-figure-center"></p>
-</figure>
+
+<img data-src="images/ars-example-flow2-hex.png" class="quarto-figure quarto-figure-center r-stretch"><ul>
+<li><p>The ARS provides a metadata-driven infrastructure for analysis</p></li>
+<li><p>{cards} serves as the engine for the analysis</p></li>
+</ul>
+</section>
+<section id="analysis-results-data-ard" class="slide level2">
+<h2>Analysis Results Data (ARD)</h2>
+<ul>
+<li>Encodes statistical analysis outcomes in a machine-readable format.</li>
+</ul>
+<div>
+<ul>
+<li class="fragment"><p>The ARD model specifies how statistical results are saved into a structured format.</p></li>
+<li class="fragment"><p>The ARD can be used to to subsequently create tables and figures.</p></li>
+<li class="fragment"><p>The ARD does <em>not</em> describe the layout of the results</p></li>
+</ul>
+</div>
+</section>
+<section id="analysis-results-data-ard-1" class="slide level2">
+<h2>Analysis Results Data (ARD)</h2>
+<ul>
+<li>After the initial creation of an ARD, the results can later be re-used again and again for subsequent reporting needs.</li>
+</ul>
+
+<img data-src="images/ard-flow.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="ards-uses-outside-of-the-ars" class="slide level2">
+<h2>ARDs uses outside of the ARS</h2>
+<div>
+<ul>
+<li class="fragment"><p>Rethinking QC</p>
+<ul>
+<li class="fragment">Highly structured data frame of results is much simpler to QC compared to statistics in a table.</li>
+</ul></li>
+<li class="fragment"><p>Flexible data file types</p>
+<ul>
+<li class="fragment">ARD can be saved as a dataset (rds, xpt, parquet, etc.), YAML, or JSON file</li>
+</ul></li>
+<li class="fragment"><p>ARDs integrate with the {gtsummary} package to create summary tables</p></li>
+</ul>
+</div>
+</section>
+<section>
+<section id="ards-using-cards" class="title-slide slide level1 center">
+<h1>ARDs using {cards}</h1>
+<p><a href="https://insightsengineering.github.io/cards/"><img src="https://insightsengineering.github.io/cards/latest-tag/logo.png" align="center" height="300" alt="cards website"></a></p>
+</section>
+<section id="cards-introduction" class="slide level2">
+<h2>{cards}: Introduction</h2>
+<div class="larger">
+<ul>
+<li><p>Part of the Pharmaverse</p></li>
+<li><p>Contains a variety of utilities for creating ARDs</p></li>
+<li><p>Can be used within the ARS workflow and separately</p></li>
+<li><p>45k downloads per month 🤯</p></li>
+</ul>
+</div>
+</section>
+<section id="what-does-an-ard-look-like" class="slide level2">
+<h2>What does an ARD look like?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(cards)</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a><span class="co"># create ARD with default summary statistics</span></span>
+<span id="cb1-4"><a></a>ADSL <span class="sc">|&gt;</span> </span>
+<span id="cb1-5"><a></a>  <span class="fu">ard_continuous</span>(</span>
+<span id="cb1-6"><a></a>    <span class="at">variables =</span> AGE</span>
+<span id="cb1-7"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>{cards} data frame: 8 x 8</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  variable   context stat_name stat_label   stat fmt_fn
+1      AGE continuo…         N          N    254      0
+2      AGE continuo…      mean       Mean 75.087      1
+3      AGE continuo…        sd         SD  8.246      1
+4      AGE continuo…    median     Median     77      1
+5      AGE continuo…       p25         Q1     70      1
+6      AGE continuo…       p75         Q3     81      1
+7      AGE continuo…       min        Min     51      1
+8      AGE continuo…       max        Max     89      1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2 more variables: warning, error</code></pre>
+</div>
+</div>
+</section>
+<section id="what-does-an-ard-look-like-1" class="slide level2">
+<h2>What does an ARD look like?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="3,5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>ADSL <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a></a>  <span class="fu">ard_continuous</span>(</span>
+<span id="cb5-3"><a></a>    <span class="at">by =</span> ARM,</span>
+<span id="cb5-4"><a></a>    <span class="at">variables =</span> AGE,</span>
+<span id="cb5-5"><a></a>    <span class="at">statistic =</span> <span class="sc">~</span><span class="fu">list</span>(<span class="at">cv =</span> \(x) <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">mean</span>(x))</span>
+<span id="cb5-6"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>{cards} data frame: 3 x 10</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  group1 group1_level variable stat_name stat_label  stat
+1    ARM      Placebo      AGE        cv         cv 0.114
+2    ARM    Xanomeli…      AGE        cv         cv 0.106
+3    ARM    Xanomeli…      AGE        cv         cv  0.11</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 4 more variables: context, fmt_fn, warning, error</code></pre>
+</div>
+</div>
+</section>
+<section id="cards-ard_categorical" class="slide level2">
+<h2>{cards}: <code>ard_categorical()</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>ADSL <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a></a>  <span class="fu">ard_categorical</span>(</span>
+<span id="cb9-3"><a></a>    <span class="at">by =</span> ARM,</span>
+<span id="cb9-4"><a></a>    <span class="at">variables =</span> AGEGR1</span>
+<span id="cb9-5"><a></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>{cards} data frame: 27 x 11</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   group1 group1_level variable variable_level stat_name stat_label  stat
+1     ARM      Placebo   AGEGR1            &lt;65         n          n    14
+2     ARM      Placebo   AGEGR1            &lt;65         N          N    86
+3     ARM      Placebo   AGEGR1            &lt;65         p          % 0.163
+4     ARM    Xanomeli…   AGEGR1            &lt;65         n          n    11
+5     ARM    Xanomeli…   AGEGR1            &lt;65         N          N    84
+6     ARM    Xanomeli…   AGEGR1            &lt;65         p          % 0.131
+7     ARM    Xanomeli…   AGEGR1            &lt;65         n          n     8
+8     ARM    Xanomeli…   AGEGR1            &lt;65         N          N    84
+9     ARM    Xanomeli…   AGEGR1            &lt;65         p          % 0.095
+10    ARM      Placebo   AGEGR1            &gt;80         n          n    30</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 17 more rows</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 4 more variables: context, fmt_fn, warning, error</code></pre>
+</div>
+</div>
+<div class="small">
+<p><em>Any unobserved levels of the variables appear in the ARD.</em></p>
+</div>
+</section>
+<section id="cards-other-summary-functions" class="slide level2">
+<h2>{cards}: Other Summary Functions</h2>
+<ul>
+<li><p><code>ard_dichotomous()</code>: similar to <code>ard_categorical()</code>, but for dichotomous summaries</p></li>
+<li><p><code>ard_hierarchical()</code>: similar to <code>ard_categorical()</code>, but built for nested tabulations, e.g.&nbsp;AE terms within SOC</p></li>
+<li><p><code>ard_complex()</code>: similar to <code>ard_continuous()</code>, but the summary functions can be more complex and accepts other arguments like the full and subsetted (within the by groups) data sets.</p></li>
+<li><p><code>ard_missing()</code>: tabulates rates of missingness</p></li>
+</ul>
+<p>The results from all these functions are entirely compatible with one another, and can be stacked into a single data frame. 🥞</p>
+</section></section>
+<section>
+<section id="cardx-read-extra-cards" class="title-slide slide level1 center">
+<h1>{cardx} (read: extra cards)</h1>
+
+</section>
+<section id="cardx" class="slide level2">
+<h2>{cardx}</h2>
+<ul>
+<li><p>Extension of the {cards} package, providing additional functions to create Analysis Results Datasets (ARDs)</p></li>
+<li><p>The {cardx} package exports many <code>ard_*()</code> function for statistical methods.</p></li>
+</ul>
+
+<img data-src="images/cards-cardx-hex.png" class="quarto-figure quarto-figure-center r-stretch" alt="cards and cardx package logos"></section>
+<section id="cardx-1" class="slide level2">
+<h2>{cardx}</h2>
+<ul>
+<li>Exports ARD frameworks for statistical analyses from many packages</li>
+</ul>
+<div class="larger">
+<pre><code>  - {stats}
+  - {car}
+  - {effectsize}
+  - {emmeans}
+  - {geepack}
+  - {lme4}
+  - {parameters}
+  - {smd}
+  - {survey}
+  - {survival}</code></pre>
+</div>
+<ul>
+<li>This list is growing (rather quickly) 🌱</li>
+</ul>
+</section>
+<section id="cardx-t-test-example" class="slide level2">
+<h2>{cardx} t-test Example</h2>
+<div class="small">
+<ul>
+<li><p>We see the results like the mean difference, the confidence interval, and p-value as expected.</p></li>
+<li><p>And we also see the function’s inputs, which is incredibly useful for re-use, e.g.&nbsp;we know the we did not use equal variances.</p></li>
+</ul>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>pharmaverseadam<span class="sc">::</span>adsl <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(ARM <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Xanomeline High Dose"</span>, <span class="st">"Xanomeline Low Dose"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a></a>  cardx<span class="sc">::</span><span class="fu">ard_stats_t_test</span>(<span class="at">by =</span> ARM, <span class="at">variables =</span> AGE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>{cards} data frame: 14 x 9</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   group1 variable   context   stat_name stat_label      stat
+1     ARM      AGE stats_t_…    estimate  Mean Dif…    -1.286
+2     ARM      AGE stats_t_…   estimate1  Group 1 …    74.381
+3     ARM      AGE stats_t_…   estimate2  Group 2 …    75.667
+4     ARM      AGE stats_t_…   statistic  t Statis…     -1.03
+5     ARM      AGE stats_t_…     p.value    p-value     0.304
+6     ARM      AGE stats_t_…   parameter  Degrees …   165.595
+7     ARM      AGE stats_t_…    conf.low  CI Lower…     -3.75
+8     ARM      AGE stats_t_…   conf.high  CI Upper…     1.179
+9     ARM      AGE stats_t_…      method     method Welch Tw…
+10    ARM      AGE stats_t_… alternative  alternat… two.sided
+11    ARM      AGE stats_t_…          mu    H0 Mean         0
+12    ARM      AGE stats_t_…      paired  Paired t…     FALSE
+13    ARM      AGE stats_t_…   var.equal  Equal Va…     FALSE
+14    ARM      AGE stats_t_…  conf.level  CI Confi…      0.95</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 3 more variables: fmt_fn, warning, error</code></pre>
+</div>
+</div>
+</section>
+<section id="cardx-regression" class="slide level2">
+<h2>{cardx} Regression</h2>
+<ul>
+<li>Includes functionality to summarize nearly every type of regression model in the R ecosystem:</li>
+</ul>
+<div class="small">
+<p><code>betareg::betareg()</code>, <code>biglm::bigglm()</code>, <code>brms::brm()</code>, <code>cmprsk::crr()</code>, <code>fixest::feglm()</code>, <code>fixest::femlm()</code>, <code>fixest::feNmlm()</code>, <code>fixest::feols()</code>, <code>gam::gam()</code>, <code>geepack::geeglm()</code>, <code>glmmTMB::glmmTMB()</code>, <code>lavaan::lavaan()</code>, <code>lfe::felm()</code>, <code>lme4::glmer.nb()</code>, <code>lme4::glmer()</code>, <code>lme4::lmer()</code>, <code>logitr::logitr()</code>, <code>MASS::glm.nb()</code>, <code>MASS::polr()</code>, <code>mgcv::gam()</code>, <code>mice::mira</code>, <code>mmrm::mmrm()</code>, <code>multgee::nomLORgee()</code>, <code>multgee::ordLORgee()</code>, <code>nnet::multinom()</code>, <code>ordinal::clm()</code>, <code>ordinal::clmm()</code>, <code>parsnip::model_fit</code>, <code>plm::plm()</code>, <code>pscl::hurdle()</code>, <code>pscl::zeroinfl()</code>, <code>rstanarm::stan_glm()</code>, <code>stats::aov()</code>, <code>stats::glm()</code>, <code>stats::lm()</code>, <code>stats::nls()</code>, <code>survey::svycoxph()</code>, <code>survey::svyglm()</code>, <code>survey::svyolr()</code>, <code>survival::cch()</code>, <code>survival::clogit()</code>, <code>survival::coxph()</code>, <code>survival::survreg()</code>, <code>tidycmprsk::crr()</code>, <code>VGAM::vglm()</code> (and more)</p>
+</div>
+</section>
+<section id="cardx-regression-example" class="slide level2">
+<h2>{cardx} Regression Example</h2>
+<p>TODO: Maybe move this list to the speaker notes?</p>
+<p>The <code>cardx::ard_regression()</code> does <strong>a lot</strong> for us in the background.</p>
+<ul>
+<li>Identifies the variable from the regression terms (i.e.&nbsp;groups levels of the same variable)</li>
+<li>Identifies reference groups from categorical covariates</li>
+<li>Finds variable labels from the source data frames</li>
+<li>Knows the total N of the model, the number of events, and can do the same for each level of categorical variables</li>
+<li>Contextually aware of slopes, odds ratios, hazard ratios, and incidence rate ratios</li>
+<li>And much <em><strong>much</strong></em> more.</li>
+</ul>
+</section>
+<section id="when-things-go-wrong" class="slide level2">
+<h2>When things go wrong 😱</h2>
+<p>What happens when statistics are un-calculable?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>ard_gone_wrong <span class="ot">&lt;-</span> </span>
+<span id="cb20-2"><a></a>  cards<span class="sc">::</span>ADSL <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a></a>  cards<span class="sc">::</span><span class="fu">ard_continuous</span>(</span>
+<span id="cb20-4"><a></a>    <span class="at">by =</span> ARM,</span>
+<span id="cb20-5"><a></a>    <span class="at">variable =</span> AGEGR1,</span>
+<span id="cb20-6"><a></a>    <span class="at">statistic =</span> <span class="sc">~</span><span class="fu">list</span>(<span class="at">kurtosis =</span> \(x) e1071<span class="sc">::</span><span class="fu">kurtosis</span>(x))</span>
+<span id="cb20-7"><a></a>  )</span>
+<span id="cb20-8"><a></a>ard_gone_wrong</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>{cards} data frame: 3 x 10</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  group1 group1_level variable stat_name stat_label stat   warning     error
+1    ARM      Placebo   AGEGR1  kurtosis   kurtosis      argument… non-nume…
+2    ARM    Xanomeli…   AGEGR1  kurtosis   kurtosis      argument… non-nume…
+3    ARM    Xanomeli…   AGEGR1  kurtosis   kurtosis      argument… non-nume…</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2 more variables: context, fmt_fn</code></pre>
+</div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a>cards<span class="sc">::</span><span class="fu">print_ard_conditions</span>(ard_gone_wrong)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img data-src="images/ard-error-msg.png"></p>
+</div>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<h3 id="how-it-started">How it started</h3>
+<div class="small">
+<ul>
+<li><p>Began to address reproducible issues while working in academia</p></li>
+<li><p>Goal was to build a package to summarize study results with code that was <span class="emphasis">both simple and customizable</span></p></li>
+<li><p>First release in May 2019</p></li>
+</ul>
+</div>
+<div class="fragment">
+<!-- -->
+<h3 id="how-its-going">How it’s going</h3>
+<div class="small">
+<ul>
+<li><p>The stats</p>
+<ul>
+<li><span class="emphasis">1,000,000+ installations</span> from CRAN</li>
+<li>1000+ GitHub stars</li>
+<li>300+ contributors</li>
+<li>~50 code contributors</li>
+</ul></li>
+<li><p>Won the 2021 American Statistical Association (ASA) Innovation in Programming Award</p></li>
+<li><p>Won the 2024 Posit Pharma Table Contest</p></li>
+</ul>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
+<p><img src="images/gtsummary-logo.png" width="650"></p>
+<div class="fragment">
+<p><img src="images/asa.png" width="200"><img src="images/posit.png" width="200"></p>
+</div>
+</div></div>
+</section>
+<section id="gtsummary-runs-on-ards" class="slide level2">
+<h2>{gtsummary} runs on ARDs!</h2>
+
+<img data-src="images/ARD-gtsummary-example.png" class="r-stretch"></section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<div class="v-center-container">
+<p><img data-src="images/coauthors.png"></p>
 </div>
 
 <div class="quarto-auto-generated-content">
 <p><img src="images/cards-cardx-gtsummary-hex.png" class="slide-logo"></p>
 <div class="footer footer-default">
-
+<p><a href="https://www.danieldsjoberg.com/ARD-RinPharma-talk-2024/">www.danieldsjoberg.com/ARD-RinPharma-talk-2024/</a></p>
 </div>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
@@ -596,6 +982,44 @@ Daniel D. Sjoberg, Genentech
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

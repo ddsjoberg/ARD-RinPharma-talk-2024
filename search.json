@@ -25,7 +25,136 @@
     "href": "slides/index.html#cdiscs-analysis-results-standard-ars-2",
     "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
     "section": "CDISC’s Analysis Results Standard (ARS)",
-    "text": "CDISC’s Analysis Results Standard (ARS)"
+    "text": "CDISC’s Analysis Results Standard (ARS)\n\n\nThe ARS provides a metadata-driven infrastructure for analysis\n{cards} serves as the engine for the analysis"
+  },
+  {
+    "objectID": "slides/index.html#analysis-results-data-ard",
+    "href": "slides/index.html#analysis-results-data-ard",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "Analysis Results Data (ARD)",
+    "text": "Analysis Results Data (ARD)\n\nEncodes statistical analysis outcomes in a machine-readable format.\n\n\n\nThe ARD model specifies how statistical results are saved into a structured format.\nThe ARD can be used to to subsequently create tables and figures.\nThe ARD does not describe the layout of the results"
+  },
+  {
+    "objectID": "slides/index.html#analysis-results-data-ard-1",
+    "href": "slides/index.html#analysis-results-data-ard-1",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "Analysis Results Data (ARD)",
+    "text": "Analysis Results Data (ARD)\n\nAfter the initial creation of an ARD, the results can later be re-used again and again for subsequent reporting needs."
+  },
+  {
+    "objectID": "slides/index.html#ards-uses-outside-of-the-ars",
+    "href": "slides/index.html#ards-uses-outside-of-the-ars",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "ARDs uses outside of the ARS",
+    "text": "ARDs uses outside of the ARS\n\n\nRethinking QC\n\nHighly structured data frame of results is much simpler to QC compared to statistics in a table.\n\nFlexible data file types\n\nARD can be saved as a dataset (rds, xpt, parquet, etc.), YAML, or JSON file\n\nARDs integrate with the {gtsummary} package to create summary tables"
+  },
+  {
+    "objectID": "slides/index.html#cards-introduction",
+    "href": "slides/index.html#cards-introduction",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "{cards}: Introduction",
+    "text": "{cards}: Introduction\n\n\nPart of the Pharmaverse\nContains a variety of utilities for creating ARDs\nCan be used within the ARS workflow and separately\n45k downloads per month 🤯"
+  },
+  {
+    "objectID": "slides/index.html#what-does-an-ard-look-like",
+    "href": "slides/index.html#what-does-an-ard-look-like",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "What does an ARD look like?",
+    "text": "What does an ARD look like?\n\nlibrary(cards)\n\n# create ARD with default summary statistics\nADSL |&gt; \n  ard_continuous(\n    variables = AGE\n  )\n\n{cards} data frame: 8 x 8\n\n\n  variable   context stat_name stat_label   stat fmt_fn\n1      AGE continuo…         N          N    254      0\n2      AGE continuo…      mean       Mean 75.087      1\n3      AGE continuo…        sd         SD  8.246      1\n4      AGE continuo…    median     Median     77      1\n5      AGE continuo…       p25         Q1     70      1\n6      AGE continuo…       p75         Q3     81      1\n7      AGE continuo…       min        Min     51      1\n8      AGE continuo…       max        Max     89      1\n\n\nℹ 2 more variables: warning, error"
+  },
+  {
+    "objectID": "slides/index.html#what-does-an-ard-look-like-1",
+    "href": "slides/index.html#what-does-an-ard-look-like-1",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "What does an ARD look like?",
+    "text": "What does an ARD look like?\n\nADSL |&gt; \n  ard_continuous(\n    by = ARM,\n    variables = AGE,\n    statistic = ~list(cv = \\(x) sd(x) / mean(x))\n  )\n\n{cards} data frame: 3 x 10\n\n\n  group1 group1_level variable stat_name stat_label  stat\n1    ARM      Placebo      AGE        cv         cv 0.114\n2    ARM    Xanomeli…      AGE        cv         cv 0.106\n3    ARM    Xanomeli…      AGE        cv         cv  0.11\n\n\nℹ 4 more variables: context, fmt_fn, warning, error"
+  },
+  {
+    "objectID": "slides/index.html#cards-ard_categorical",
+    "href": "slides/index.html#cards-ard_categorical",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "{cards}: ard_categorical()",
+    "text": "{cards}: ard_categorical()\n\nADSL |&gt; \n  ard_categorical(\n    by = ARM,\n    variables = AGEGR1\n  ) \n\n{cards} data frame: 27 x 11\n\n\n   group1 group1_level variable variable_level stat_name stat_label  stat\n1     ARM      Placebo   AGEGR1            &lt;65         n          n    14\n2     ARM      Placebo   AGEGR1            &lt;65         N          N    86\n3     ARM      Placebo   AGEGR1            &lt;65         p          % 0.163\n4     ARM    Xanomeli…   AGEGR1            &lt;65         n          n    11\n5     ARM    Xanomeli…   AGEGR1            &lt;65         N          N    84\n6     ARM    Xanomeli…   AGEGR1            &lt;65         p          % 0.131\n7     ARM    Xanomeli…   AGEGR1            &lt;65         n          n     8\n8     ARM    Xanomeli…   AGEGR1            &lt;65         N          N    84\n9     ARM    Xanomeli…   AGEGR1            &lt;65         p          % 0.095\n10    ARM      Placebo   AGEGR1            &gt;80         n          n    30\n\n\nℹ 17 more rows\n\n\nℹ Use `print(n = ...)` to see more rows\n\n\nℹ 4 more variables: context, fmt_fn, warning, error\n\n\n\nAny unobserved levels of the variables appear in the ARD."
+  },
+  {
+    "objectID": "slides/index.html#cards-other-summary-functions",
+    "href": "slides/index.html#cards-other-summary-functions",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "{cards}: Other Summary Functions",
+    "text": "{cards}: Other Summary Functions\n\nard_dichotomous(): similar to ard_categorical(), but for dichotomous summaries\nard_hierarchical(): similar to ard_categorical(), but built for nested tabulations, e.g. AE terms within SOC\nard_complex(): similar to ard_continuous(), but the summary functions can be more complex and accepts other arguments like the full and subsetted (within the by groups) data sets.\nard_missing(): tabulates rates of missingness\n\nThe results from all these functions are entirely compatible with one another, and can be stacked into a single data frame. 🥞"
+  },
+  {
+    "objectID": "slides/index.html#cardx",
+    "href": "slides/index.html#cardx",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "{cardx}",
+    "text": "{cardx}\n\nExtension of the {cards} package, providing additional functions to create Analysis Results Datasets (ARDs)\nThe {cardx} package exports many ard_*() function for statistical methods."
+  },
+  {
+    "objectID": "slides/index.html#cardx-1",
+    "href": "slides/index.html#cardx-1",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "{cardx}",
+    "text": "{cardx}\n\nExports ARD frameworks for statistical analyses from many packages\n\n\n  - {stats}\n  - {car}\n  - {effectsize}\n  - {emmeans}\n  - {geepack}\n  - {lme4}\n  - {parameters}\n  - {smd}\n  - {survey}\n  - {survival}\n\n\nThis list is growing (rather quickly) 🌱"
+  },
+  {
+    "objectID": "slides/index.html#cardx-t-test-example",
+    "href": "slides/index.html#cardx-t-test-example",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "{cardx} t-test Example",
+    "text": "{cardx} t-test Example\n\n\nWe see the results like the mean difference, the confidence interval, and p-value as expected.\nAnd we also see the function’s inputs, which is incredibly useful for re-use, e.g. we know the we did not use equal variances.\n\n\n\npharmaverseadam::adsl |&gt; \n  dplyr::filter(ARM %in% c(\"Xanomeline High Dose\", \"Xanomeline Low Dose\")) |&gt;\n  cardx::ard_stats_t_test(by = ARM, variables = AGE)\n\n{cards} data frame: 14 x 9\n\n\n   group1 variable   context   stat_name stat_label      stat\n1     ARM      AGE stats_t_…    estimate  Mean Dif…    -1.286\n2     ARM      AGE stats_t_…   estimate1  Group 1 …    74.381\n3     ARM      AGE stats_t_…   estimate2  Group 2 …    75.667\n4     ARM      AGE stats_t_…   statistic  t Statis…     -1.03\n5     ARM      AGE stats_t_…     p.value    p-value     0.304\n6     ARM      AGE stats_t_…   parameter  Degrees …   165.595\n7     ARM      AGE stats_t_…    conf.low  CI Lower…     -3.75\n8     ARM      AGE stats_t_…   conf.high  CI Upper…     1.179\n9     ARM      AGE stats_t_…      method     method Welch Tw…\n10    ARM      AGE stats_t_… alternative  alternat… two.sided\n11    ARM      AGE stats_t_…          mu    H0 Mean         0\n12    ARM      AGE stats_t_…      paired  Paired t…     FALSE\n13    ARM      AGE stats_t_…   var.equal  Equal Va…     FALSE\n14    ARM      AGE stats_t_…  conf.level  CI Confi…      0.95\n\n\nℹ 3 more variables: fmt_fn, warning, error"
+  },
+  {
+    "objectID": "slides/index.html#cardx-regression",
+    "href": "slides/index.html#cardx-regression",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "{cardx} Regression",
+    "text": "{cardx} Regression\n\nIncludes functionality to summarize nearly every type of regression model in the R ecosystem:\n\n\nbetareg::betareg(), biglm::bigglm(), brms::brm(), cmprsk::crr(), fixest::feglm(), fixest::femlm(), fixest::feNmlm(), fixest::feols(), gam::gam(), geepack::geeglm(), glmmTMB::glmmTMB(), lavaan::lavaan(), lfe::felm(), lme4::glmer.nb(), lme4::glmer(), lme4::lmer(), logitr::logitr(), MASS::glm.nb(), MASS::polr(), mgcv::gam(), mice::mira, mmrm::mmrm(), multgee::nomLORgee(), multgee::ordLORgee(), nnet::multinom(), ordinal::clm(), ordinal::clmm(), parsnip::model_fit, plm::plm(), pscl::hurdle(), pscl::zeroinfl(), rstanarm::stan_glm(), stats::aov(), stats::glm(), stats::lm(), stats::nls(), survey::svycoxph(), survey::svyglm(), survey::svyolr(), survival::cch(), survival::clogit(), survival::coxph(), survival::survreg(), tidycmprsk::crr(), VGAM::vglm() (and more)"
+  },
+  {
+    "objectID": "slides/index.html#cardx-regression-example",
+    "href": "slides/index.html#cardx-regression-example",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "{cardx} Regression Example",
+    "text": "{cardx} Regression Example\nTODO: Maybe move this list to the speaker notes?\nThe cardx::ard_regression() does a lot for us in the background.\n\nIdentifies the variable from the regression terms (i.e. groups levels of the same variable)\nIdentifies reference groups from categorical covariates\nFinds variable labels from the source data frames\nKnows the total N of the model, the number of events, and can do the same for each level of categorical variables\nContextually aware of slopes, odds ratios, hazard ratios, and incidence rate ratios\nAnd much much more."
+  },
+  {
+    "objectID": "slides/index.html#when-things-go-wrong",
+    "href": "slides/index.html#when-things-go-wrong",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "When things go wrong 😱",
+    "text": "When things go wrong 😱\nWhat happens when statistics are un-calculable?\n\nard_gone_wrong &lt;- \n  cards::ADSL |&gt; \n  cards::ard_continuous(\n    by = ARM,\n    variable = AGEGR1,\n    statistic = ~list(kurtosis = \\(x) e1071::kurtosis(x))\n  )\nard_gone_wrong\n\n{cards} data frame: 3 x 10\n\n\n  group1 group1_level variable stat_name stat_label stat   warning     error\n1    ARM      Placebo   AGEGR1  kurtosis   kurtosis      argument… non-nume…\n2    ARM    Xanomeli…   AGEGR1  kurtosis   kurtosis      argument… non-nume…\n3    ARM    Xanomeli…   AGEGR1  kurtosis   kurtosis      argument… non-nume…\n\n\nℹ 2 more variables: context, fmt_fn\n\n\n\ncards::print_ard_conditions(ard_gone_wrong)"
+  },
+  {
+    "objectID": "slides/index.html#section",
+    "href": "slides/index.html#section",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "",
+    "text": "How it started\n\n\nBegan to address reproducible issues while working in academia\nGoal was to build a package to summarize study results with code that was both simple and customizable\nFirst release in May 2019\n\n\n\n\nHow it’s going\n\n\nThe stats\n\n1,000,000+ installations from CRAN\n1000+ GitHub stars\n300+ contributors\n~50 code contributors\n\nWon the 2021 American Statistical Association (ASA) Innovation in Programming Award\nWon the 2024 Posit Pharma Table Contest"
+  },
+  {
+    "objectID": "slides/index.html#gtsummary-runs-on-ards",
+    "href": "slides/index.html#gtsummary-runs-on-ards",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "{gtsummary} runs on ARDs!",
+    "text": "{gtsummary} runs on ARDs!"
+  },
+  {
+    "objectID": "slides/index.html#section-1",
+    "href": "slides/index.html#section-1",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "",
+    "text": "www.danieldsjoberg.com/ARD-RinPharma-talk-2024/"
+  },
+  {
+    "objectID": "license.html",
+    "href": "license.html",
+    "title": "License",
+    "section": "",
+    "text": "This work is licensed under a Creative Commons Attribution 4.0 International License.",
+    "crumbs": [
+      "License"
+    ]
   },
   {
     "objectID": "index.html",
@@ -58,13 +187,13 @@
     ]
   },
   {
-    "objectID": "license.html",
-    "href": "license.html",
-    "title": "License",
-    "section": "",
-    "text": "This work is licensed under a Creative Commons Attribution 4.0 International License.",
+    "objectID": "index.html#slides",
+    "href": "index.html#slides",
+    "title": "Harnessing CDISC’s Emerging Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "Slides",
+    "text": "Slides\nView slides in full screen",
     "crumbs": [
-      "License"
+      "Home"
     ]
   }
 ]
