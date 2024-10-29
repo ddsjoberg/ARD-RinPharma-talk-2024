@@ -2,6 +2,7 @@
 title: "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages"
 author: "Daniel D. Sjoberg, Genentech"
 logo: "images/cards-cardx-gtsummary-hex.png"
+footer: "[www.danieldsjoberg.com/ARD-RinPharma-talk-2024/](https://www.danieldsjoberg.com/ARD-RinPharma-talk-2024/)"
 editor: source
 format: 
   revealjs: 
@@ -43,4 +44,268 @@ title-slide-attributes:
 
 ![](images/ars-example-flow2-hex.png){fig-align="center" }
 
+- The ARS provides a metadata-driven infrastructure for analysis
 
+- {cards} serves as the engine for the analysis 
+
+## Analysis Results Data (ARD)
+
+-   Encodes statistical analysis outcomes in a machine-readable format.
+
+::: {.incremental}
+
+-   The ARD model specifies how statistical results are saved into a structured format.
+
+-   The ARD can be used to to subsequently create tables and figures.
+
+-   The ARD does *not* describe the layout of the results
+
+:::
+
+## Analysis Results Data (ARD)
+
+* After the initial creation of an ARD, the results can later be re-used again and again for subsequent reporting needs.
+
+![](images/ard-flow.png){fig-align="center"}
+
+## ARDs uses outside of the ARS
+
+:::{.incremental}
+
+-   Rethinking QC
+
+    -   Highly structured data frame of results is much simpler to QC compared to statistics in a table.
+    
+-   Flexible data file types
+
+    -   ARD can be saved as a dataset (rds, xpt, parquet, etc.), YAML, or JSON file
+
+-   ARDs integrate with the {gtsummary} package to create summary tables
+
+:::
+
+# ARDs using {cards} 
+
+<a href="https://insightsengineering.github.io/cards/"><img src="https://insightsengineering.github.io/cards/latest-tag/logo.png" align="center" height="300" alt="cards website" /></a>
+
+## {cards}: Introduction
+
+::: {.larger}
+
+-   Part of the Pharmaverse
+
+-   Contains a variety of utilities for creating ARDs
+
+-   Can be used within the ARS workflow and separately
+
+-   45k downloads per month 🤯
+
+:::
+
+## What does an ARD look like?
+
+```{r}
+#| message: true
+library(cards)
+
+# create ARD with default summary statistics
+ADSL |> 
+  ard_continuous(
+    variables = AGE
+  )
+```
+
+
+## What does an ARD look like?
+
+```{r}
+#| message: true
+#| code-line-numbers: "3,5"
+ADSL |> 
+  ard_continuous(
+    by = ARM,
+    variables = AGE,
+    statistic = ~list(cv = \(x) sd(x) / mean(x))
+  )
+```
+
+## {cards}: `ard_categorical()`
+
+```{r}
+#| message: true
+ADSL |> 
+  ard_categorical(
+    by = ARM,
+    variables = AGEGR1
+  ) 
+```
+
+::: {.small}
+
+_Any unobserved levels of the variables appear in the ARD._
+
+:::
+
+## {cards}: Other Summary Functions 
+
+- `ard_dichotomous()`: similar to `ard_categorical()`, but for dichotomous summaries
+
+- `ard_hierarchical()`: similar to `ard_categorical()`, but built for nested tabulations, e.g. AE terms within SOC
+
+- `ard_complex()`: similar to `ard_continuous()`, but the summary functions can be more complex and accepts other arguments like the full and subsetted (within the by groups) data sets.
+
+- `ard_missing()`: tabulates rates of missingness
+
+The results from all these functions are entirely compatible with one another, and can be stacked into a single data frame. 🥞
+
+# {cardx} (read: extra cards)
+
+## {cardx}
+
+-   Extension of the {cards} package, providing additional functions to create Analysis Results Datasets (ARDs)
+
+-   The {cardx} package exports many `ard_*()` function for statistical methods.
+
+![](images/cards-cardx-hex.png){fig-alt="cards and cardx package logos" fig-align="center"}
+
+## {cardx}
+
+-   Exports ARD frameworks for statistical analyses from many packages 
+
+::: {.larger}
+
+      - {stats}
+      - {car}
+      - {effectsize}
+      - {emmeans}
+      - {geepack}
+      - {lme4}
+      - {parameters}
+      - {smd}
+      - {survey}
+      - {survival}
+
+:::
+
+-   This list is growing (rather quickly) 🌱
+
+## {cardx} t-test Example
+
+::: {.small}
+
+- We see the results like the mean difference, the confidence interval, and p-value as expected.
+
+- And we also see the function's inputs, which is incredibly useful for re-use, e.g. we know the we did not use equal variances.
+
+:::
+
+```{r}
+#| message: true
+pharmaverseadam::adsl |> 
+  dplyr::filter(ARM %in% c("Xanomeline High Dose", "Xanomeline Low Dose")) |>
+  cardx::ard_stats_t_test(by = ARM, variables = AGE)
+```
+
+## {cardx} Regression
+
+-   Includes functionality to summarize nearly every type of regression model in the R ecosystem: 
+
+::: {.small}
+
+`r broom.helpers::supported_models$model` (and more)
+
+:::
+
+
+## {cardx} Regression Example
+
+TODO: Maybe move this list to the speaker notes?
+
+The `cardx::ard_regression()` does **a lot** for us in the background.
+
+- Identifies the variable from the regression terms (i.e. groups levels of the same variable)
+- Identifies reference groups from categorical covariates
+- Finds variable labels from the source data frames
+- Knows the total N of the model, the number of events, and can do the same for each level of categorical variables
+- Contextually aware of slopes, odds ratios, hazard ratios, and incidence rate ratios
+- And much _**much**_ more.
+
+## When things go wrong 😱
+
+What happens when statistics are un-calculable? 
+
+```{r}
+#| message: true
+ard_gone_wrong <- 
+  cards::ADSL |> 
+  cards::ard_continuous(
+    by = ARM,
+    variable = AGEGR1,
+    statistic = ~list(kurtosis = \(x) e1071::kurtosis(x))
+  )
+ard_gone_wrong
+```
+
+::: {.fragment}
+
+```r
+cards::print_ard_conditions(ard_gone_wrong)
+```
+
+![](images/ard-error-msg.png)
+
+:::
+
+## 
+
+::::::::: columns
+:::::: {.column width="60%"}
+### How it started
+
+::: small
+-   Began to address reproducible issues while working in academia
+
+-   Goal was to build a package to summarize study results with code that was [both simple and customizable]{.emphasis}
+
+-   First release in May 2019
+:::
+
+:::: fragment
+### How it's going
+
+::: small
+-   The stats
+
+    -   [1,000,000+ installations]{.emphasis} from CRAN
+    -   1000+ GitHub stars
+    -   300+ contributors
+    -   \~50 code contributors
+
+-   Won the 2021 American Statistical Association (ASA) Innovation in Programming Award
+
+-   Won the 2024 Posit Pharma Table Contest
+:::
+::::
+::::::
+
+:::: {.column width="40%"}
+<img src="images/gtsummary-logo.png" width="650"/>
+
+::: fragment
+<img src="images/asa.png" width="200"/><img src="images/posit.png" width="200"/>
+:::
+::::
+:::::::::
+
+## {gtsummary} runs on ARDs!
+
+![](images/ARD-gtsummary-example.png)
+
+
+##
+
+::: {.v-center-container}
+
+![](images/coauthors.png)
+
+:::
