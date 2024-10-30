@@ -32,7 +32,7 @@
     "href": "slides/index.html#analysis-results-data-ard",
     "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
     "section": "Analysis Results Data (ARD)",
-    "text": "Analysis Results Data (ARD)\n\nEncodes statistical analysis outcomes in a machine-readable format.\n\n\n\nThe ARD model specifies how statistical results are saved into a structured format.\nThe ARD can be used to to subsequently create tables and figures.\nThe ARD does not describe the layout of the results"
+    "text": "Analysis Results Data (ARD)\n\nEncodes statistical analysis outcomes in a machine-readable format.\nThe ARD model specifies how statistical results are saved into a structured format.\nThe ARD can be used to to subsequently create tables and figures.\nThe ARD does not describe the layout of the results"
   },
   {
     "objectID": "slides/index.html#analysis-results-data-ard-1",
@@ -67,7 +67,7 @@
     "href": "slides/index.html#what-does-an-ard-look-like-1",
     "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
     "section": "What does an ARD look like?",
-    "text": "What does an ARD look like?\n\nADSL |&gt; \n  ard_continuous(\n    by = ARM,\n    variables = AGE,\n    statistic = ~list(cv = \\(x) sd(x) / mean(x))\n  )\n\n{cards} data frame: 3 x 10\n\n\n  group1 group1_level variable stat_name stat_label  stat\n1    ARM      Placebo      AGE        cv         cv 0.114\n2    ARM    Xanomeli…      AGE        cv         cv 0.106\n3    ARM    Xanomeli…      AGE        cv         cv  0.11\n\n\nℹ 4 more variables: context, fmt_fn, warning, error"
+    "text": "What does an ARD look like?\n\nWe just saw the default statistics returned in the previous example\nIt’s simple to pass any function to ard_continuous() (base R functions, functions from other package, user-defined functions, etc.)\n\n\nADSL |&gt; \n  ard_continuous(\n    by = ARM,\n    variables = AGE,\n    statistic = ~list(cv = \\(x) sd(x) / mean(x))\n  )\n\n{cards} data frame: 3 x 10\n\n\n  group1 group1_level variable stat_name stat_label  stat\n1    ARM      Placebo      AGE        cv         cv 0.114\n2    ARM    Xanomeli…      AGE        cv         cv 0.106\n3    ARM    Xanomeli…      AGE        cv         cv  0.11\n\n\nℹ 4 more variables: context, fmt_fn, warning, error"
   },
   {
     "objectID": "slides/index.html#cards-ard_categorical",
@@ -116,7 +116,7 @@
     "href": "slides/index.html#cardx-regression-example",
     "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
     "section": "{cardx} Regression Example",
-    "text": "{cardx} Regression Example\nTODO: Maybe move this list to the speaker notes?\nThe cardx::ard_regression() does a lot for us in the background.\n\nIdentifies the variable from the regression terms (i.e. groups levels of the same variable)\nIdentifies reference groups from categorical covariates\nFinds variable labels from the source data frames\nKnows the total N of the model, the number of events, and can do the same for each level of categorical variables\nContextually aware of slopes, odds ratios, hazard ratios, and incidence rate ratios\nAnd much much more."
+    "text": "{cardx} Regression Example\nThe cardx::ard_regression() does a lot for us in the background.\n\nIdentifies the variable from the regression terms (i.e. groups levels of the same variable)\nIdentifies reference groups from categorical covariates\nFinds variable labels from the source data frames\nKnows the total N of the model, the number of events, and can do the same for each level of categorical variables\nContextually aware of slopes, odds ratios, hazard ratios, and incidence rate ratios\nAnd much much more."
   },
   {
     "objectID": "slides/index.html#when-things-go-wrong",
@@ -130,7 +130,14 @@
     "href": "slides/index.html#section",
     "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
     "section": "",
-    "text": "How it started\n\n\nBegan to address reproducible issues while working in academia\nGoal was to build a package to summarize study results with code that was both simple and customizable\nFirst release in May 2019\n\n\n\n\nHow it’s going\n\n\nThe stats\n\n1,000,000+ installations from CRAN\n1000+ GitHub stars\n300+ contributors\n~50 code contributors\n\nWon the 2021 American Statistical Association (ASA) Innovation in Programming Award\nWon the 2024 Posit Pharma Table Contest"
+    "text": "How it started\n\n\nBegan to address reproducible issues while working in academia\nGoal was to build a package to summarize study results with code that was both simple and customizable\nFirst release in May 2019\n\n\n\n\nHow it’s going\n\n\nThe stats\n\n1,000,000+ installations from CRAN\n1000+ GitHub stars\n300+ contributors\n~50 code contributors"
+  },
+  {
+    "objectID": "slides/index.html#section-1",
+    "href": "slides/index.html#section-1",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "",
+    "text": "Won the 2021 American Statistical Association (ASA) Innovation in Programming Award\n\n\n\nAgustin Calatroni and I won the 2024 Posit Pharma Table Contest by re-creating an entire CSR with the {gtsummary} package"
   },
   {
     "objectID": "slides/index.html#gtsummary-runs-on-ards",
@@ -140,11 +147,32 @@
     "text": "{gtsummary} runs on ARDs!"
   },
   {
-    "objectID": "slides/index.html#section-1",
-    "href": "slides/index.html#section-1",
+    "objectID": "slides/index.html#demographics-example",
+    "href": "slides/index.html#demographics-example",
     "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
-    "section": "",
-    "text": "www.danieldsjoberg.com/ARD-RinPharma-talk-2024/"
+    "section": "Demographics Example",
+    "text": "Demographics Example\n\nlibrary(gtsummary)\n\ntbl &lt;- dplyr::filter(pharmaverseadam::adsl, SAFFL == \"Y\") |&gt; \n  tbl_summary(\n    by = TRT01A,\n    include = c(AGE, AGEGR1),\n    type = AGE ~ \"continuous2\",\n    statistic = AGE ~ c(\"{mean} ({sd})\", \"{median} ({p25}, {p75})\")\n  ) |&gt; \n  add_overall() |&gt; \n  add_stat_label()\ntbl\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nOverall N = 254\nPlacebo N = 86\nXanomeline High Dose N = 72\nXanomeline Low Dose N = 96\n\n\n\n\nAge\n\n\n\n\n\n\n\n\n\n\n    Mean (SD)\n75 (8)\n75 (9)\n74 (8)\n76 (8)\n\n\n    Median (Q1, Q3)\n77 (70, 81)\n76 (69, 82)\n76 (70, 79)\n78 (71, 82)\n\n\nPooled Age Group 1, n (%)\n\n\n\n\n\n\n\n\n\n\n    &gt;64\n221 (87%)\n72 (84%)\n61 (85%)\n88 (92%)\n\n\n    18-64\n33 (13%)\n14 (16%)\n11 (15%)\n8 (8.3%)"
+  },
+  {
+    "objectID": "slides/index.html#demographics-example-1",
+    "href": "slides/index.html#demographics-example-1",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "Demographics Example",
+    "text": "Demographics Example\n\nExtract the ARD from the table object\n\n\ngather_ard(tbl) |&gt; purrr::pluck(\"tbl_summary\") |&gt; dplyr::select(-gts_column)\n\n{cards} data frame: 79 x 11\n\n\n   group1 group1_level variable variable_level stat_name stat_label  stat\n1  TRT01A      Placebo   AGEGR1            &gt;64         n          n    72\n2  TRT01A      Placebo   AGEGR1            &gt;64         N          N    86\n3  TRT01A      Placebo   AGEGR1            &gt;64         p          % 0.837\n4  TRT01A    Xanomeli…   AGEGR1            &gt;64         n          n    61\n5  TRT01A    Xanomeli…   AGEGR1            &gt;64         N          N    72\n6  TRT01A    Xanomeli…   AGEGR1            &gt;64         p          % 0.847\n7  TRT01A    Xanomeli…   AGEGR1            &gt;64         n          n    88\n8  TRT01A    Xanomeli…   AGEGR1            &gt;64         N          N    96\n9  TRT01A    Xanomeli…   AGEGR1            &gt;64         p          % 0.917\n10 TRT01A      Placebo   AGEGR1          18-64         n          n    14\n\n\nℹ 69 more rows\n\n\nℹ Use `print(n = ...)` to see more rows\n\n\nℹ 4 more variables: context, fmt_fn, warning, error"
+  },
+  {
+    "objectID": "slides/index.html#demographics-example-2",
+    "href": "slides/index.html#demographics-example-2",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "Demographics Example",
+    "text": "Demographics Example\n\ndplyr::filter(pharmaverseadam::adsl, SAFFL == \"Y\") |&gt; \n  cards::ard_stack(\n    .by = TRT01A, .overall = TRUE, .attributes = TRUE,\n    ard_continuous(variables = AGE),\n    ard_categorical(variables = AGEGR1)\n  ) |&gt; \n  tbl_ard_summary(\n    by = TRT01A,\n    type = AGE ~ \"continuous2\",\n    statistic = AGE ~ c(\"{mean} ({sd})\", \"{median} ({p25}, {p75})\"),\n    overall = TRUE\n  ) |&gt; \n  add_stat_label()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nOverall\nPlacebo\nXanomeline High Dose\nXanomeline Low Dose\n\n\n\n\nAge\n\n\n\n\n\n\n\n\n\n\n    Mean (SD)\n75.1 (8.2)\n75.2 (8.6)\n73.8 (7.9)\n76.0 (8.1)\n\n\n    Median (Q1, Q3)\n77.0 (70.0, 81.0)\n76.0 (69.0, 82.0)\n75.5 (70.0, 79.0)\n78.0 (71.0, 82.0)\n\n\nPooled Age Group 1, n (%)\n\n\n\n\n\n\n\n\n\n\n    &gt;64\n221 (87.0%)\n72 (83.7%)\n61 (84.7%)\n88 (91.7%)\n\n\n    18-64\n33 (13.0%)\n14 (16.3%)\n11 (15.3%)\n8 (8.3%)"
+  },
+  {
+    "objectID": "slides/index.html#ard-team",
+    "href": "slides/index.html#ard-team",
+    "title": "Analysis Results Datasets Standard with the {cards} and {gtsummary} Packages",
+    "section": "🕺🕺 ARD Team 🕺🕺",
+    "text": "🕺🕺 ARD Team 🕺🕺\n\n\n\n\n\n\n\nwww.danieldsjoberg.com/ARD-RinPharma-talk-2024/"
   },
   {
     "objectID": "license.html",
