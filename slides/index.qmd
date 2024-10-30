@@ -52,15 +52,12 @@ title-slide-attributes:
 
 -   Encodes statistical analysis outcomes in a machine-readable format.
 
-::: {.incremental}
-
 -   The ARD model specifies how statistical results are saved into a structured format.
 
 -   The ARD can be used to to subsequently create tables and figures.
 
 -   The ARD does *not* describe the layout of the results
 
-:::
 
 ## Analysis Results Data (ARD)
 
@@ -117,6 +114,10 @@ ADSL |>
 
 
 ## What does an ARD look like?
+
+- We just saw the default statistics returned in the previous example
+
+- It's simple to pass _any_ function to `ard_continuous()` (base R functions, functions from other package, user-defined functions, etc.)
 
 ```{r}
 #| message: true
@@ -219,8 +220,6 @@ pharmaverseadam::adsl |>
 
 ## {cardx} Regression Example
 
-TODO: Maybe move this list to the speaker notes?
-
 The `cardx::ard_regression()` does **a lot** for us in the background.
 
 - Identifies the variable from the regression terms (i.e. groups levels of the same variable)
@@ -256,6 +255,8 @@ cards::print_ard_conditions(ard_gone_wrong)
 
 :::
 
+# Tables with {gtsummary}
+
 ## 
 
 ::::::::: columns
@@ -280,10 +281,6 @@ cards::print_ard_conditions(ard_gone_wrong)
     -   1000+ GitHub stars
     -   300+ contributors
     -   \~50 code contributors
-
--   Won the 2021 American Statistical Association (ASA) Innovation in Programming Award
-
--   Won the 2024 Posit Pharma Table Contest
 :::
 ::::
 ::::::
@@ -291,18 +288,82 @@ cards::print_ard_conditions(ard_gone_wrong)
 :::: {.column width="40%"}
 <img src="images/gtsummary-logo.png" width="650"/>
 
-::: fragment
-<img src="images/asa.png" width="200"/><img src="images/posit.png" width="200"/>
-:::
 ::::
 :::::::::
+
+##
+
+::::::::: columns
+:::::: {.column width="60%"}
+
+-   Won the 2021 American Statistical Association (ASA) Innovation in Programming Award
+
+<img src="images/asa.png" width="250"/>
+
+-   Agustin Calatroni and I won the 2024 Posit Pharma Table Contest by re-creating an entire CSR with the {gtsummary} package
+
+<img src="images/posit.png" width="280"/>
+
+::::::
+
+:::: {.column width="40%"}
+<img src="images/gtsummary-logo.png" width="650"/>
+
+::::
+:::::::::
+
 
 ## {gtsummary} runs on ARDs!
 
 ![](images/ARD-gtsummary-example.png)
 
+## Demographics Example
 
-##
+```{r}
+#| code-line-numbers: "|4-9|5|6|7|8|10|11"
+library(gtsummary)
+
+tbl <- dplyr::filter(pharmaverseadam::adsl, SAFFL == "Y") |> 
+  tbl_summary(
+    by = TRT01A,
+    include = c(AGE, AGEGR1),
+    type = AGE ~ "continuous2",
+    statistic = AGE ~ c("{mean} ({sd})", "{median} ({p25}, {p75})")
+  ) |> 
+  add_overall() |> 
+  add_stat_label()
+tbl
+```
+
+## Demographics Example
+
+- Extract the ARD from the table object
+
+```{r}
+#| message: true
+gather_ard(tbl) |> purrr::pluck("tbl_summary") |> dplyr::select(-gts_column)
+```
+
+## Demographics Example
+
+```{r}
+#| code-line-numbers: "|2-6|7-12|8|9|10|11|13"
+dplyr::filter(pharmaverseadam::adsl, SAFFL == "Y") |> 
+  cards::ard_stack(
+    .by = TRT01A, .overall = TRUE, .attributes = TRUE,
+    ard_continuous(variables = AGE),
+    ard_categorical(variables = AGEGR1)
+  ) |> 
+  tbl_ard_summary(
+    by = TRT01A,
+    type = AGE ~ "continuous2",
+    statistic = AGE ~ c("{mean} ({sd})", "{median} ({p25}, {p75})"),
+    overall = TRUE
+  ) |> 
+  add_stat_label()
+```
+
+## 🕺🕺 ARD Team 🕺🕺
 
 ::: {.v-center-container}
 
